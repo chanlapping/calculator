@@ -27,7 +27,12 @@ function operate(operator, a, b) {
     }
 }
 
-let a = 3;
-let b = 5;
+let displayValue = '';
+const display = document.querySelector('.display');
 
-console.log(operate('*', a, b));
+const numBtns = document.querySelectorAll('.num');
+
+numBtns.forEach(btn => btn.addEventListener('click', (e) => {
+    displayValue += e.target.innerHTML;
+    display.textContent = displayValue;
+}));
