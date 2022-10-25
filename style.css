@@ -1,0 +1,33 @@
+html {
+    font-size: 40px;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: sans-serif;
+}
+
+.display {
+    width: 12rem;
+    height: 3rem;
+    background-color: gray;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+.panel {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    width: 12rem;
+}
+
+button {
+    display: block;
+    width: 3rem;
+    height: 3rem;
+    font-size: inherit;
+}
