@@ -17,6 +17,8 @@ body {
     background-color: gray;
     padding: 1rem;
     box-sizing: border-box;
+    font-family: monospace;
+    text-align: right;
 }
 
 .panel {

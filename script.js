@@ -12,22 +12,34 @@ function multiply(a, b) {
 
 function divide(a, b) {
     if (b === 0) {
-        return 'Error! Division by 0.';
+        return 'Division by 0.';
     }
     return a / b;
 }
 
 function operate(operator, a, b) {
+    let result;
     switch (operator) {
         case '+':
-            return add(a, b);
+            result = add(a, b);
+            break;
         case '-':
-            return subtract(a, b);
+            result = subtract(a, b);
+            break;
         case '*':
-            return multiply(a, b);
+            result = multiply(a, b);
+            break;
         case '/':
-            return divide(a , b);
+            result = divide(a , b);
+            break;
     }
+    if (result === 'Division by 0.') {
+        return result;
+    }
+    if (result.toString().length > 10) {
+        result = result.toPrecision(10);
+    }
+    return result;
 }
 
 // initialize state of machine
@@ -45,6 +57,9 @@ const clearBtn = document.querySelector('.clear');
 
 // event listeners
 numBtns.forEach(btn => btn.addEventListener('click', (e) => {
+    if (displayValue.length >= 10) {
+        return;
+    }
     displayValue += e.target.value;
     display.textContent = displayValue;
 }));
@@ -81,24 +96,4 @@ clearBtn.addEventListener('click', () => {
     display.textContent = '0';
 })
 
-// store the first number that is input into the calculator when a user presses an operator
-// save which operation has been chosen
-// operate() on them when the user presses the “=” key
-// once operate() has been called, update the display with the ‘solution’ to the operation
-// 
-// operator click
-// if first number = ''
-//   first number = display value
-//   operator = button value
-// else
-//   result = operate(operator, first, display value)
-//   first number = result
-//   display result
-// display value = ''
 
-// equal btn click
-// if first = '' or display value = '' return
-// result = operate(operator, first, display value)
-// display result
-// first = ''
-// display value = ''
