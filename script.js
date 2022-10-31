@@ -53,12 +53,17 @@ const numBtns = document.querySelectorAll('.num');
 const operatorBtns = document.querySelectorAll('.operator');
 const equalBtn = document.querySelector('.operate');
 const clearBtn = document.querySelector('.clear');
-
+const signBtn = document.querySelector('.sign');
+const backSpaceBtn = document.querySelector('.backspace');
+const decimalBtn = document.querySelector('.decimal');
 
 // event listeners
 numBtns.forEach(btn => btn.addEventListener('click', (e) => {
     if (displayValue.length >= 10) {
         return;
+    }
+    if (displayValue === '0') {
+        displayValue = '';
     }
     displayValue += e.target.value;
     display.textContent = displayValue;
@@ -94,6 +99,35 @@ clearBtn.addEventListener('click', () => {
     storedValue = '';
     operator = '';
     display.textContent = '0';
-})
+});
 
+signBtn.addEventListener('click', () => {
+    if (displayValue === '' || displayValue === '0') {
+        return;
+    }
+    if (displayValue[0] === '-') {
+        displayValue = displayValue.substring(1);  
+    } else {
+        displayValue = '-' + displayValue;
+    }
+    display.textContent = displayValue;
+});
 
+backSpaceBtn.addEventListener('click', () => {
+    if (displayValue === '' || displayValue === '0') {
+        return;
+    }
+    displayValue = displayValue.slice(0, -1);
+    if (displayValue === '') {
+        displayValue = '0';
+    }
+    display.textContent = displayValue;
+});
+
+decimalBtn.addEventListener('click', () => {
+    if (displayValue.includes('.')) {
+        return;
+    }
+    displayValue += '.';
+    display.textContent = displayValue;
+});
