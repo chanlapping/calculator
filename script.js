@@ -58,18 +58,27 @@ const backSpaceBtn = document.querySelector('.backspace');
 const decimalBtn = document.querySelector('.decimal');
 
 // event listeners
-numBtns.forEach(btn => btn.addEventListener('click', (e) => {
+numBtns.forEach(btn => btn.addEventListener('click', inputNum));
+
+function inputNum(e) {
     if (displayValue.length >= 10) {
         return;
     }
     if (displayValue === '0') {
         displayValue = '';
     }
-    displayValue += e.target.value;
+    if (e.type === 'click') {
+        displayValue += e.target.value;
+    } else {
+        displayValue += e.key;
+    }
+    
     display.textContent = displayValue;
-}));
+}
 
-operatorBtns.forEach(btn => btn.addEventListener('click', (e) => {
+operatorBtns.forEach(btn => btn.addEventListener('click', handleOperator));
+
+function handleOperator(e) {
     if (displayValue === '') {
         return;
     }
@@ -80,11 +89,18 @@ operatorBtns.forEach(btn => btn.addEventListener('click', (e) => {
         storedValue = operate(operator, storedValue, +displayValue);
         display.textContent = storedValue;
     }
-    operator = e.target.value;
+    if (e.type === 'click') {
+        operator = e.target.value;
+    } else {
+        operator = e.key;
+    }
+    
     displayValue = '';
-}));
+}
 
-equalBtn.addEventListener('click', () => {
+equalBtn.addEventListener('click', handleEqual);
+
+function handleEqual() {
     if (storedValue === '' || displayValue === '') {
         return;
     }
@@ -92,16 +108,20 @@ equalBtn.addEventListener('click', () => {
     storedValue = '';
     displayValue = '';
     operator = '';
-});
+}
 
-clearBtn.addEventListener('click', () => {
+clearBtn.addEventListener('click', handleClear);
+
+function handleClear() {
     displayValue = '';
     storedValue = '';
     operator = '';
     display.textContent = '0';
-});
+}
 
-signBtn.addEventListener('click', () => {
+signBtn.addEventListener('click', changeSign);
+
+function changeSign() {
     if (displayValue === '' || displayValue === '0') {
         return;
     }
@@ -111,9 +131,11 @@ signBtn.addEventListener('click', () => {
         displayValue = '-' + displayValue;
     }
     display.textContent = displayValue;
-});
+}
 
-backSpaceBtn.addEventListener('click', () => {
+backSpaceBtn.addEventListener('click', backspace);
+
+function backspace() {
     if (displayValue === '' || displayValue === '0') {
         return;
     }
@@ -122,12 +144,32 @@ backSpaceBtn.addEventListener('click', () => {
         displayValue = '0';
     }
     display.textContent = displayValue;
-});
+}
 
-decimalBtn.addEventListener('click', () => {
+decimalBtn.addEventListener('click', handleDecimal);
+
+function handleDecimal() {
     if (displayValue.includes('.')) {
         return;
     }
     displayValue += '.';
     display.textContent = displayValue;
-});
+}
+
+window.addEventListener('keydown', (e) => {
+    if (Number.isInteger(Number(e.key))) {
+        inputNum(e);
+    } else if (e.key === '+' || e.key === '-' || e.key === '*' || e.key === '/') {
+        handleOperator(e);
+    } else if (e.key === '=') {
+        handleEqual();
+    } else if (e.key === 'Escape') {
+        handleClear();
+    } else if (e.key === 's' || e.key === 'S') {
+        changeSign();
+    } else if (e.key === 'Backspace') {
+        backspace();
+    } else if (e.key === '.') {
+        handleDecimal();
+    }
+})
